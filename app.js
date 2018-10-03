@@ -145,10 +145,6 @@ App({
     });
   },
   logOut: function() {
-    my.setStorageSync({ key: 'user_cookie', data :''});
-    my.setStorageSync({ key: 'LoginSession', data: ''});
-    //const http = require('utils/http.js');
-    //http.set_cookie_key('memberUserspapapa', '');
     my.reLaunch({
       url: '../index/index',
     });
