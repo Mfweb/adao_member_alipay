@@ -20,7 +20,6 @@ Page({
     termsNodes: null
   },
   onReady: function() {
-    let _this = this;
     let sUN = my.getStorageSync({ key: 'UserName' }).data;
     let sPW = my.getStorageSync({ key: 'PassWord' }).data;
 
@@ -52,17 +51,17 @@ Page({
             console.log(res);
             app.showError('未知错误');
           }
-          _this.setData({ BLoading: false });
-          _this.getNewVcode();
+          this.setData({ BLoading: false });
+          this.getNewVcode();
           my.hideNavigationBarLoading();
-        },
+        }.bind(this),
         function() {
           app.showError('连接服务器失败');
-          _this.setData({ BLoading: false });
+          this.setData({ BLoading: false });
           my.hideNavigationBarLoading();
-        }
+        }.bind(this)
       );
-    });
+    }.bind(this));
   },
   onTapVerifyCode: function(e) {
     this.getNewVcode();
@@ -80,18 +79,190 @@ Page({
     this.getNewVcode();
   },
   /**
+   * 登录
+   */
+  onLoginSubmit: function(e) {
+    if (this.data.BLoading == true) {
+      return;
+    }
+    let u_email = e.detail.value.email;
+    let u_pass = e.detail.value.passwd;
+    let u_vcode = e.detail.value.verifycode;
+    if (u_email == null || u_pass == null || u_vcode == null) {
+      app.showError('输入错误');
+      return;
+    }
+
+    if (u_email.indexOf('@') < 1) {
+      app.showError('邮箱格式错误');
+      return;
+    }
+    if (u_pass.length < 5) {
+      app.showError('密码长度太短');
+      return;
+    }
+    if (u_vcode.length != 5) {
+      app.showError('验证码错误');
+      return;
+    }
+    this.setData({ BLoading: true });
+    http.api_request(app.globalData.ApiUrls.LoginURL,
+      {
+        email: u_email,
+        password: u_pass,
+        verify: u_vcode
+      },
+      function(res) {
+        if (typeof res == 'object') {
+          if (res.hasOwnProperty('status') && res.status == 1) {
+            if (rememberPW) {
+              wx.setStorageSync('UserName', u_email);
+              wx.setStorageSync('PassWord', u_pass)
+            }
+            if (memberMode == 0) {
+              wx.switchTab({
+                url: '../member-cookie/member-cookie',
+              });
+            }
+            else if (memberMode == 1) {
+              wx.navigateTo({
+                url: '../app-cookie/app-cookie',
+              });
+            }
+          }
+          else {
+            app.showError(res.info);
+            this.getNewVcode();
+          }
+        }
+        else {
+          app.showError('发生错误');
+          app.log(res);
+        }
+        this.setData({ BLoading: false });
+      }.bind(this),
+      function() {
+        app.showError('连接服务器失败');
+        this.setData({ BLoading: false });
+      }.bind(this));
+  },
+  /**
+   * 注册
+   */
+  onSignupSubmit: function(e) {
+    if (this.data.BLoading == true) {
+      return;
+    }
+    let u_email = e.detail.value.email;
+    let u_vcode = e.detail.value.verifycode;
+    let u_agree = e.detail.value.agree.length;
+    if (u_email == null || u_vcode == null) {
+      app.showError('输入错误');
+      return;
+    }
+    if (!u_agree) {
+      app.showError('请阅读并同意服务条款和隐私政策');
+      return;
+    }
+    if (u_email.indexOf('@') < 1) {
+      app.showError('邮箱格式错误');
+      return;
+    }
+
+    if (u_vcode.length != 5) {
+      app.showError('验证码错误');
+      return;
+    }
+    this.setData({ BLoading: true });
+    http.api_request(app.globalData.ApiUrls.SignupURL,
+      {
+        email: u_email,
+        verify: u_vcode,
+        agree: ['']
+      },
+      function(res) {
+        if (typeof res == 'object') {
+          if (res.status == 1) {
+            app.showSuccess(res.info);
+            this.switchPage(0);
+          }
+          else {
+            app.showError(res.info);
+            this.getNewVcode();
+          }
+        }
+        else {
+          app.showError('发生错误');
+          app.log(res);
+        }
+        this.setData({ BLoading: false });
+      }.bind(this),
+      function() {
+        app.showError('连接服务器失败');
+        this.setData({ BLoading: false });
+      }.bind(this));
+  },
+  /**
+   * 忘记密码
+   */
+  onForgotPassSubmit: function(e) {
+    if (this.data.BLoading == true) {
+      return;
+    }
+    let u_email = e.detail.value.email;
+    let u_vcode = e.detail.value.verifycode;
+    if (u_email == null || u_vcode == null) {
+      app.showError('输入错误');
+      return;
+    }
+    if (u_email.indexOf('@') < 1) {
+      app.showError('邮箱格式错误');
+      return;
+    }
+
+    if (u_vcode.length != 5) {
+      app.showError('验证码错误');
+      return;
+    }
+    this.setData({ BLoading: true });
+    http.api_request(app.globalData.ApiUrls.ForgotURL,
+      {
+        email: u_email,
+        verify: u_vcode
+      },
+      function(res) {
+        if (typeof res == 'object') {
+          if (res.status == 1) {
+            app.showSuccess(res.info);
+          }
+          else {
+            app.showError(res.info);
+            this.getNewVcode();
+          }
+        }
+        else {
+          app.showError('发生错误');
+          app.log(res);
+        }
+        this.setData({ BLoading: false });
+      }.bind(this),
+      function() {
+        app.showError('连接服务器失败');
+        this.setData({ BLoading: false });
+      }.bind(this));
+  },
+  /**
      * APP下载
      */
   onAppDw: function() {
     my.showActionSheet({
-      itemList: ['APP下载', '关于'],
-      itemColor: '#334054',
+      items: ['APP下载', '关于'],
       success: function(e) {
-        if (e.cancel != true) {
-          if (e.tapIndex == 0) {//App下载
+        if (e.index >= 0) {
+          if (e.index == 0) {//App下载
             app.showDownloadAPP();
           }
-          else if (e.tapIndex == 1) {//关于
+          else if (e.index == 1) {//关于
             my.navigateTo({
               url: '../about/about',
             });
@@ -104,11 +275,16 @@ Page({
   onReadPrivacy: function() {
     my.navigateTo({ url: '../thread/thread?id=11689471&is_bt=false' });
   },
+  onEat: function(e) {
+    app.playEat();
+  },
+  onRPW: function(e) {
+    rememberPW = e.detail.value;
+  },
   /**
    * 载入服务条款
    */
   onReadTerms: function() {
-    var _this = this;
     app.getTerms(function(res) {
       if (res === false) {
         app.showError('网络错误');
@@ -117,64 +293,31 @@ Page({
         app.showError(res.errmsg);
       }
       else {
-        _this.setData({ termsNodes: WxParse.wxParse('item', 'html', res.data, _this, null).nodes, showTermsWindow: true });
+        this.setData({ termsNodes: WxParse.wxParse('item', 'html', res.data, this, null).nodes, showTermsWindow: true });
       }
-    });
+    }.bind(this));
   },
   onReadTermsFinish: function() {
     this.setData({ showTermsWindow: false });
-  },
-  f_touch: function() {
   },
   /**
    * 获取新验证码
    */
   getNewVcode: function() {
     this.setData({ vCodeLoading: true, verifyCodeURL: "" });
-    var _this = this;
     http.get_verifycode(function(sta, img, msg) {
       if (sta == false) {
         app.showError(msg);
       }
-      _this.setData({ vCodeLoading: false, verifyCodeURL: img });
-    });
+      this.setData({ vCodeLoading: false, verifyCodeURL: img });
+    }.bind(this));
   },
   /**
    * 切换页面
+   * 支付宝小程序动画总是不显示，暂时先直接切换
    */
   switchPage: function(new_page) {
     this.setData({ Mode: new_page, TitleText: pageTitles[new_page] });
-    /*
-    var now_page = this.data.Mode;
-    var now_anime = this.data.animations;
-
-    var animeOut = my.createAnimation({
-      duration: 200,
-      timeFunction: 'ease'
-    });
-    animeOut.opacity(0).step();
-    now_anime[now_page] = animeOut.export();
-    this.setData({ animations: now_anime });
-
-    var _this = this;
-    setTimeout((function callback() {
-      _this.setData({ Mode: new_page });
-      var now_anime = _this.data.animations;
-      var animeIn = my.createAnimation({
-        duration: 200,
-        timeFunction: 'ease'
-      });
-      animeIn.opacity(1).step();
-      now_anime[new_page] = animeIn.export();
-      _this.setData({ animations: now_anime, TitleText: pageTitles[new_page] });
-      if (new_page == 1) {
-        my.showModal({
-          title: '提示',
-          content: '目前微软旗下的所有邮箱（包括Hotmail、Outlook、Live等）和新浪邮箱全都屏蔽了A岛的注册邮件，请使用其他邮箱注册。',
-          showCancel: false
-        });
-      }
-    }).bind(this), 200);*/
   },
   /**
    * 获取并显示公告

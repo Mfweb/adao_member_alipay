@@ -41,7 +41,14 @@ App({
       WeLoginURL: hostURL + "/adao/member/login.php",//登录
       WeUploadRunURL: hostURL + "/adao/member/uprun.php",//上传微信运动数据
       WeDownloadRunURL: hostURL + "/adao/member/dwrun.php",//获取微信运动排行
-    }
+    },
+    AppList: Array(
+      'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',//iOS芦苇娘
+      'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',//iOS橙岛(贼贼贼)
+      'https://www.pgyer.com/adao',//安卓芦苇娘
+      'https://www.pgyer.com/nimingban',//安卓基佬紫
+      'https://www.microsoft.com/zh-cn/store/apps/a%E5%B2%9B%E5%8C%BF%E5%90%8D%E7%89%88/9nblggh1ng7h'//人权机
+    ),
   },
   todos: [
     { text: 'Learning Javascript', completed: true },
@@ -99,45 +106,41 @@ App({
     }
   },
   showDownloadAPP: function() {
-    var that = this;
     my.showActionSheet({
-      itemList: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
-      itemColor: '#334054',
+      items: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
       success: function(e) {
-        if (e.cancel != true) {
-          my.setClipboardData({
-            data: that.globalData.AppList[e.tapIndex],
+        if (e.index >= 0) {
+          my.setClipboard({
+            text: this.globalData.AppList[e.index],
             success: function() {
-              that.showSuccess('链接已复制');
-            },
+              this.showSuccess('链接已复制');
+            }.bind(this),
             fail: function() {
-              that.showError('复制失败');
-            }
+              this.showError('复制失败');
+            }.bind(this)
           });
         }
-      }
+      }.bind(this)
     });
   },
   ExitMenu: function() {
-    var that = this;
     my.showActionSheet({
-      itemList: ['APP下载', '关于', '退出登录'],
-      itemColor: '#334054',
+      items: ['APP下载', '关于', '退出登录'],
       success: function(e) {
-        if (e.cancel != true) {
-          if (e.tapIndex == 0) {//App下载
-            that.showDownloadAPP();
+        if (e.index >= 0) {
+          if (e.index == 0) {//App下载
+            this.showDownloadAPP();
           }
-          else if (e.tapIndex == 1) {//关于
+          else if (e.index == 1) {//关于
             my.navigateTo({
               url: '../about/about',
             });
           }
-          else if (e.tapIndex == 2) {//退出登录
-            that.logOut();
+          else if (e.index == 2) {//退出登录
+            this.logOut();
           }
         }
-      },
+      }.bind(this),
       fail: function() { }
     });
   },

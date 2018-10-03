@@ -56,11 +56,11 @@
           <checkbox name='agree'/>
         </label>
       </checkbox-group>
-      <view>      我已阅读并同意
-        <label class='hight-light' onTap='onReadTerms'>服务条款
-        </label>和
-        <label class='hight-light' onTap='onReadPrivacy'>隐私政策
-        </label>
+      <view class="terms-line">      我已阅读并同意
+        <view class='hight-light' onTap='onReadTerms'>服务条款
+        </view>和
+        <view class='hight-light' onTap='onReadPrivacy'>隐私政策
+        </view>
       </view>
     </view>
     <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='reg'>发送注册邮件
