@@ -23,7 +23,6 @@ function api_request(url, pdata, success, fail)
       if (res.data[0] == '{') {
         res.data = JSON.parse(res.data);
       }
-      console.log(res);
       try{
         if (res != undefined && res.headers !== undefined && res.header['Set-Cookie'] !== undefined)
           save_cookie(res.header['Set-Cookie']);

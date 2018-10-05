@@ -1,6 +1,7 @@
 {
   "pages": [
-    "pages/index/index"  
+    "pages/index/index",
+    "pages/userMember/userMember"
   ],
   "window": {
     "defaultTitle": "A岛注册实名系统",

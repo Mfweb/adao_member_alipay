@@ -22,8 +22,9 @@ Page({
   onReady: function() {
     let sUN = my.getStorageSync({ key: 'UserName' }).data;
     let sPW = my.getStorageSync({ key: 'PassWord' }).data;
-
-    if (sUN != '' && sPW != '') {
+    console.log(sUN);
+    console.log(sPW);
+    if (sUN != null && sPW != null) {
       rememberPW = true;
       this.setData({ RememberPW: true, UserName: sUN, PassWord: sPW });
     }
@@ -38,8 +39,8 @@ Page({
         null,
         function(res) {
           if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-            my.switchTab({
-              url: '../member-cookie/member-cookie',
+            my.navigateTo({
+              url: '../userMember/userMember',
             });
           }
           else if (typeof res == 'object' && res.info !== undefined) {
@@ -48,7 +49,6 @@ Page({
             }
           }
           else {
-            console.log(res);
             app.showError('未知错误');
           }
           this.setData({ BLoading: false });
@@ -116,19 +116,12 @@ Page({
         if (typeof res == 'object') {
           if (res.hasOwnProperty('status') && res.status == 1) {
             if (rememberPW) {
-              wx.setStorageSync('UserName', u_email);
-              wx.setStorageSync('PassWord', u_pass)
+              my.setStorageSync({ key: 'UserName', data: u_email });
+              my.setStorageSync({ key: 'PassWord', data: u_pass });
             }
-            if (memberMode == 0) {
-              wx.switchTab({
-                url: '../member-cookie/member-cookie',
-              });
-            }
-            else if (memberMode == 1) {
-              wx.navigateTo({
-                url: '../app-cookie/app-cookie',
-              });
-            }
+            my.navigateTo({
+              url: '../userMember/userMember',
+            });
           }
           else {
             app.showError(res.info);
@@ -327,7 +320,6 @@ Page({
       url: app.globalData.ApiUrls.GetNoticeURL,
       dataType: 'json',
       success: function(res) {
-        console.log(res);
         if (typeof res.data == 'object') {
           if (res.data.errno == '0' && res.data.notice.length > 0) {
             var noticeMark = my.getStorageSync({ key: 'NoticeMark' }).data;
