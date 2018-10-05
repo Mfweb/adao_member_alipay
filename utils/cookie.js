@@ -75,11 +75,12 @@ function getCookies(callback) {
 function getCookieDetail(id, callback) {
   if (getDetailRunning)return;
   getDetailRunning = true;
-
+  console.log(id);
   http.api_request(
     app.globalData.ApiUrls.CookieGetDetailURL + id + ".html",
     null,
     function (res, header) {
+      console.log(res);
       console.log(header);
       if (header !== null && header !== undefined && header['Set-Cookie'] != null && header['Set-Cookie'] != undefined && typeof header['Set-Cookie'] == 'string') {
         var cookieAll = header['Set-Cookie'];

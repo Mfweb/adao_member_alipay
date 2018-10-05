@@ -400,7 +400,7 @@ Page({
         if (e.index == 0) {
           this.getCookieQR(selId);
         }
-        else if (index > 0) {
+        else if (e.index > 0) {
           this.getCookieToClipboard(selId);
         }
       }.bind(this)

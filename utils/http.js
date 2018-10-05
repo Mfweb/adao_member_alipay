@@ -30,7 +30,7 @@ function api_request(url, pdata, success, fail)
       catch(e){}
 
       if(success != null)
-        success(res.data, res.header);
+        success(res.data, res.headers);
     },
     fail: function(){
       if(fail != null)
