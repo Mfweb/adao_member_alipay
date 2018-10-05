@@ -37,10 +37,13 @@ Page({
         app.globalData.ApiUrls.CheckSessionURL,
         null,
         function(res) {
+          this.setData({ BLoading: false });
+          my.hideNavigationBarLoading();
           if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-            my.navigateTo({
+            my.redirectTo({
               url: '../userMember/userMember',
             });
+            return;
           }
           else if (typeof res == 'object' && res.info !== undefined) {
             if (res.info != "并没有权限访问_(:з」∠)_") {
@@ -50,9 +53,7 @@ Page({
           else {
             app.showError('未知错误');
           }
-          this.setData({ BLoading: false });
           this.getNewVcode();
-          my.hideNavigationBarLoading();
         }.bind(this),
         function() {
           app.showError('连接服务器失败');
@@ -118,7 +119,7 @@ Page({
               my.setStorageSync({ key: 'UserName', data: u_email });
               my.setStorageSync({ key: 'PassWord', data: u_pass });
             }
-            my.navigateTo({
+            my.redirectTo({
               url: '../userMember/userMember',
             });
           }

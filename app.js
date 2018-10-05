@@ -146,9 +146,7 @@ App({
     });
   },
   logOut: function() {
-    my.reLaunch({
-      url: '../index/index',
-    });
+    console.log('logout');
   },
   playEat: function() {
     my.playBackgroundAudio({
@@ -198,5 +196,16 @@ App({
         callback(terms_saved);
       }
     }
+  },
+  getImage: function(success) {
+    my.httpRequest({
+      url: this.globalData.ApiUrls.GetRandomPicURL,
+      dataType: 'text',
+      success: function(res) {
+        if (res.data != undefined && res.data != '') {
+          success(res.data);
+        }
+      }
+    });
   }
 });

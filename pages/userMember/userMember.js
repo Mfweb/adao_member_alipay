@@ -5,7 +5,6 @@ var WxParse = require('../../wxParse/wxParse.js');
 import drawQrcode from '../../utils/weapp.qrcode.min.js';
 var timer = null;
 var authData = null;
-var SelectCookieID = 0;
 
 
 Page({
@@ -50,12 +49,6 @@ Page({
     changePasswdOpenData: {
       CPLoading: false
     },
-    sportOpenData: {
-      StepList: [],
-      getAuthFail: false,
-      getLoading: false,
-      showSelectCookie: false,
-    },
     popupMenuOpenData: {
       show: false,
       statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
@@ -77,10 +70,6 @@ Page({
           icon: 'passwd'
         },
         {
-          name: '肥宅排行',
-          icon: 'sport'
-        },
-        {
           name: '关于',
           icon: 'about'
         },
@@ -95,23 +84,24 @@ Page({
    * 页面渲染完成
    */
   onReady: function() {
-    SelectCookieID = 0;
     this.pullDownRefreshAll();
-    this.data.popupMenuOpenData.userName = my.getStorageSync('UserName');
+    this.data.popupMenuOpenData.userName = my.getStorageSync({key: 'UserName'}).data;
     if (this.data.popupMenuOpenData.userName == undefined || this.data.popupMenuOpenData.userName == '') {
       this.data.popupMenuOpenData.userName = '匿名肥宅';
     }
     this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
-
+    console.log('page ready');
     app.getImage(function(url) {
       this.data.popupMenuOpenData.picURL = url;
       this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+      console.log('load image final');
     }.bind(this));
   },
   /**
    * 页面关闭
    */
   onHide: function() {
+    console.log('hide page');
     if (timer != null) {
       clearInterval(timer);
       timer = null;
@@ -144,20 +134,17 @@ Page({
       this.setData({ pullDownRefing: false });
       my.stopPullDownRefresh();
     }
-    else if (this.data.popupMenuOpenData.selectedIndex == 3) {
-      this.GetStep();
-    }
   },
   /**
    * 切换页面
    */
   onTapMenuItem: function(e) {
-    if (e.currentTarget.id == 4) {
+    if (e.currentTarget.id == 3) {
       my.navigateTo({
         url: '../about/about',
       });
     }
-    else if (e.currentTarget.id == 5) {
+    else if (e.currentTarget.id == 4) {
       app.logOut();
     }
     else {
@@ -203,10 +190,12 @@ Page({
     });
   },
   pullDownRefreshAll: function() {
-    this.setData({ pullDownRefing: true });
-    //处理饼干数据
     this.data.cookieManagerOpenData.vCodeShow = false;
-    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+    this.data.authOpenData.CertFormShow = false;
+    this.data.authOpenData.ShowCertMsg = false;
+    this.setData({ authOpenData: this.data.authOpenData, cookieManagerOpenData: this.data.cookieManagerOpenData, pullDownRefing: true  });
+
+    //处理饼干数据
     this.getCookies();
     //处理实名认证相关数据
     if (timer != null) {
@@ -214,250 +203,8 @@ Page({
       timer = null;
     }
     this.getCertifiedStatus();
-    this.data.authOpenData.CertFormShow = false;
-    this.data.authOpenData.ShowCertMsg = false;
-    this.setData({ authOpenData: this.data.authOpenData });
-    //肥宅排行
-    this.GetStep();
   },
 
-  /**
-   * 点击了开始上传步数
-   */
-  onUploadStep: function(e) {
-    if (this.data.sportOpenData.getLoading) return;
-    this.data.sportOpenData.getLoading = true;
-    this.setData({ sportOpenData: this.data.sportOpenData });
-
-    //检查登录是否有效
-    /*var now_session = my.getStorageSync('LoginSession');
-    if (now_session == null || now_session.length != 128) {
-      app.log('session fail');
-      this.WeLogin();
-      return;
-    }*/
-    //这里有个问题，经常已经成功登陆但是会跳失败，暂时每次都登陆一下，使用频率不高
-    my.showModal({
-      title: '提示',
-      content: '步数只保留24小时，每隔24小时可以上传一次。',
-      showCancel: false,
-      success: function() {
-        this.WeLogin();
-      }.bind(this)
-    });
-    /*
-    my.checkSession({
-      //登录有效，直接获取授权
-      success: function () {
-        //_this.WeLogin();
-        GetAuth(_this);
-      },
-      //登录失败，重新登录
-      fail: function () {
-        _this.WeLogin();
-      }
-    });*/
-
-  },
-  /**
-   * 点击了获取授权
-   */
-  onGetAuth: function(e) {
-    if (e.detail.authSetting['scope.werun']) {
-      this.data.sportOpenData.getAuthFail = false;
-      this.setData({ sportOpenData: this.data.sportOpenData });
-      app.showSuccess('授权成功');
-    }
-    else {
-      app.showError('授权失败');
-    }
-  },
-  /**
-   * 选择饼干Radio发生改变
-   */
-  onSelectCookieRadioChange: function(e) {
-    SelectCookieID = e.detail.value;
-  },
-  /**
-   * 取消选择饼干
-   */
-  onSelectedCancel: function() {
-    this.data.sportOpenData.showSelectCookie = false;
-    this.data.sportOpenData.getLoading = false;
-    this.setData({ sportOpenData: this.data.sportOpenData });
-  },
-  /**
-   * 确认选择饼干
-   */
-  onSelectedCookie: function() {
-    this.data.sportOpenData.showSelectCookie = false;
-    this.setData({ sportOpenData: this.data.sportOpenData });
-    this.UpWeRunData();
-  },
-
-  /**
-   * 上传微信运动步数
-   */
-  UpWeRunData: function() {
-    my.getWeRunData({
-      success: function(e) {
-        http.api_request(
-          app.globalData.ApiUrls.WeUploadRunURL,
-          {
-            session: my.getStorageSync('LoginSession'),
-            encryptedData: e.encryptedData,
-            iv: e.iv,
-            cookie: SelectCookieID
-          },
-          function(e) {
-            console.log(e);
-            try {
-              if (e.status == 0) {
-                app.showSuccess(e.msg);
-                my.startPullDownRefresh({});
-                this.setData({ pullDownRefing: true });
-              }
-              else
-                app.showError(e.msg);
-            }
-            catch (err) {
-              app.showError("error");
-            }
-
-            this.data.sportOpenData.getLoading = false;
-            this.setData({ sportOpenData: this.data.sportOpenData });
-          }.bind(this),
-          function() {
-            app.showError("上传失败");
-            this.data.sportOpenData.getLoading = false;
-            this.setData({ sportOpenData: this.data.sportOpenData });
-          }.bind(this)
-        );
-      }.bind(this),
-      fail: function() {
-        app.showError("获取数据失败");
-        this.data.sportOpenData.getLoading = false;
-        this.setData({ sportOpenData: this.data.sportOpenData });
-      }.bind(this)
-    })
-  },
-  /**
-   * 获取步数排行
-   */
-  GetStep: function() {
-    my.request({
-      url: app.globalData.ApiUrls.WeDownloadRunURL,
-      success: function(res) {
-        app.log(res);
-        if (res.data.status == 0) {
-          this.data.sportOpenData.StepList = res.data.steps;
-          this.setData({ sportOpenData: this.data.sportOpenData });
-        }
-        else {
-          app.showError(res.data.msg);
-        }
-        my.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
-      }.bind(this),
-      fail: function() {
-        app.showError("网络错误");
-        my.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
-      }.bind(this)
-    });
-  },
-  /**
-   * 登录
-   */
-  WeLogin: function() {
-    my.login({
-      //登录成功
-      success: function(e) {
-        app.log(e);
-        if (e.code) {
-          my.request({
-            url: app.globalData.ApiUrls.WeLoginURL,
-            method: 'POST',
-            header: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'X-Requested-With': 'XMLHttpRequest',
-            },
-            data: {
-              code: e.code,
-              time: new Date().getTime()
-            },
-            success: function(e) {
-              if (e.data.status == 0) {
-                my.setStorageSync('LoginSession', e.data.session);
-                //获取授权
-                this.GetAuth();
-              }
-              else {
-                app.showError("登录失败4");
-                this.data.sportOpenData.getLoading = false;
-                this.setData({ sportOpenData: this.data.sportOpenData });
-              }
-            }.bind(this),
-            fail: function() {
-              app.showError("登录失败3");
-              this.data.sportOpenData.getLoading = false;
-              this.setData({ sportOpenData: this.data.sportOpenData });
-            }.bind(this)
-          });
-        }
-        else {
-          app.showError("登录失败2");
-          app.log(e);
-          this.data.sportOpenData.getLoading = false;
-          this.setData({ sportOpenData: this.data.sportOpenData });
-        }
-      }.bind(this),
-      //登录失败
-      fail: function(e) {
-        app.showError("登录失败1");
-        app.log(e);
-        this.data.sportOpenData.getLoading = false;
-        this.setData({ sportOpenData: this.data.sportOpenData });
-      }.bind(this)
-    });
-  },
-  /**
-   * 获取授权
-   */
-  GetAuth: function() {
-    my.authorize({
-      scope: 'scope.werun',
-      success: function(e) {
-        if (e.errMsg == "authorize:ok") {
-          //获取授权成功，获取并上传步数数据
-          this.getCookies(function(sta) {
-            if (sta) {
-              this.data.sportOpenData.showSelectCookie = true;
-              this.data.cookieManagerOpenData.CookieList[0].checked = 'true';
-              SelectCookieID = 0;
-              this.setData({ sportOpenData: this.data.sportOpenData, cookieManagerOpenData: this.data.cookieManagerOpenData });
-            }
-            else {
-              this.data.sportOpenData.getLoading = false;
-              this.setData({ sportOpenData: this.data.sportOpenData });
-            }
-          }.bind(this));
-        }
-        else {
-          app.showError("获取权限失败");
-          this.data.sportOpenData.getLoading = false;
-          this.data.sportOpenData.getAuthFail = true;
-          this.setData({ sportOpenData: this.data.sportOpenData });
-        }
-      }.bind(this),
-      fail: function(e) {
-        app.showError("获取权限失败");
-        this.data.sportOpenData.getLoading = false;
-        this.data.sportOpenData.getAuthFail = true;
-        this.setData({ sportOpenData: this.data.sportOpenData });
-      }.bind(this)
-    });
-  },
   /**
    * 点击了关闭实名认证
    */
@@ -783,20 +530,18 @@ Page({
       if (info != null) {
         this.data.cookieManagerOpenData.CookieNum = info.capacity;
         this.data.cookieManagerOpenData.CookieWarning = info.warning;
-        this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
       }
 
+      this.setData({ pullDownRefing: false, cookieManagerOpenData: this.data.cookieManagerOpenData});
+      my.stopPullDownRefresh();
+
       if (status == false) {
-        app.showError(msg);
-        my.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
+        app.showError(msg);        
         if (callback !== null) callback(false);
         return;
       }
       this.data.cookieManagerOpenData.CookieList = msg;
       this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
-      my.stopPullDownRefresh();
-      this.setData({ pullDownRefing: false });
       if (callback !== null) callback(true);
     }.bind(this));
   },
@@ -936,11 +681,11 @@ Page({
           if (cert_status != null) {
             cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
             this.data.authOpenData.CertStatus = cert_status;
-            this.setData({ authOpenData: this.data.authOpenData });
           }
           else {
             app.showError('实名状态错误');
           }
+
           if (res.indexOf('已绑定手机') > 0)//手机认证已经成功的
           {
             phone_status = res.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
@@ -951,18 +696,17 @@ Page({
               }
             }
             this.data.authOpenData.CanCert = false;
-            this.setData({ authOpenData: this.data.authOpenData });
           }
           else if (res.indexOf('绑定手机') > 0)//未进行手机实名认证
           {
             this.data.authOpenData.PhoneStatus = '未认证';
             this.data.authOpenData.CanCert = true;
-            this.setData({ authOpenData: this.data.authOpenData });
           }
         }
         else {
           app.showError('发生了错误');
         }
+        this.setData({ authOpenData: this.data.authOpenData });
         my.stopPullDownRefresh();
         this.setData({ pullDownRefing: false });
       }.bind(this),
