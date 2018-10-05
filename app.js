@@ -19,6 +19,7 @@ App({
       MobileCertURL: hostURL + "/nmb/Member/User/Authentication/mobileReverseAuthCode",//手机认证
       MobileCheckURL: hostURL + "/nmb/Member/User/Authentication/isBindMobile",//手机认证校验
       ChangePasswordURL: hostURL + "/nmb/Member/User/Index/changePassword.html",//修改密码
+      LogoutURL: hostURL + "/nmb/Member/User/Index/logout.html",
 
       GetNoticeURL: hostURL + "/adao/member/notice.php",//获取公告
       GetAuthPhoneURL: hostURL + "/adao/member/getphone.php",//获取三酱验证手机号
@@ -146,7 +147,18 @@ App({
     });
   },
   logOut: function() {
-    console.log('logout');
+    my.httpRequest({
+      url: this.globalData.ApiUrls.LogoutURL,
+      dataType: 'text',
+      success: function(res) {
+        my.reLaunch({
+          url: '../index/index'
+        });
+      },
+      fail: function(){
+        this.showError('退出登录失败');
+      }.bind(this)
+    });
   },
   playEat: function() {
     my.playBackgroundAudio({
