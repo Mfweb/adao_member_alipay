@@ -178,8 +178,8 @@ Page({
    * 点击了APP下载
    */
   onTapDownloadApp: function(e) {
-    my.setClipboardData({
-      data: app.globalData.AppList[e.currentTarget.id].url,
+    my.setClipboard({
+      text: app.globalData.AppList[e.currentTarget.id].url,
       success: function() {
         app.showSuccess('链接已复制');
         this.onTapOverlay();
@@ -358,8 +358,8 @@ Page({
           app.showError('复制失败');
         }
         else {
-          my.setClipboardData({
-            data: res,
+          my.setClipboard({
+            text: res,
             success: function() {
               app.showSuccess('复制完成');
             },
@@ -395,16 +395,13 @@ Page({
   onGetCookie: function(event) {
     let selId = event.target.id;
     my.showActionSheet({
-      itemList: ['获取二维码', '复制内容'],
-      itemColor: '#334054',
+      items: ['获取二维码', '复制内容'],
       success: function(e) {
-        if (e.cancel != true) {
-          if (e.tapIndex == 0) {
-            this.getCookieQR(selId);
-          }
-          else {
-            this.getCookieToClipboard(selId);
-          }
+        if (e.index == 0) {
+          this.getCookieQR(selId);
+        }
+        else if (index > 0) {
+          this.getCookieToClipboard(selId);
         }
       }.bind(this)
     })
@@ -642,8 +639,8 @@ Page({
 
     cookie.getCookieDetail(temp_data.CookieList[index].id, function(sta, detail) {
       if (sta == true) {
-        my.setClipboardData({
-          data: detail,
+        my.setClipboard({
+          text: detail,
           success: function() {
             app.showSuccess('饼干已复制');
           },

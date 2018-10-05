@@ -80,6 +80,7 @@ function getCookieDetail(id, callback) {
     app.globalData.ApiUrls.CookieGetDetailURL + id + ".html",
     null,
     function (res, header) {
+      console.log(header);
       if (header !== null && header !== undefined && header['Set-Cookie'] != null && header['Set-Cookie'] != undefined && typeof header['Set-Cookie'] == 'string') {
         var cookieAll = header['Set-Cookie'];
         if (cookieAll.indexOf('userhash=') >= 0) {
