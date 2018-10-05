@@ -2,7 +2,6 @@ const app = getApp();
 const http = require('../../utils/http.js');
 const cookie = require('../../utils/cookie.js');
 var WxParse = require('../../wxParse/wxParse.js');
-import drawQrcode from '../../utils/weapp.qrcode.min.js';
 var timer = null;
 var authData = null;
 
@@ -90,18 +89,15 @@ Page({
       this.data.popupMenuOpenData.userName = '匿名肥宅';
     }
     this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
-    console.log('page ready');
     app.getImage(function(url) {
       this.data.popupMenuOpenData.picURL = url;
       this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
-      console.log('load image final');
     }.bind(this));
   },
   /**
    * 页面关闭
    */
   onHide: function() {
-    console.log('hide page');
     if (timer != null) {
       clearInterval(timer);
       timer = null;
@@ -546,63 +542,10 @@ Page({
    * 创建并显示二维码
    */
   createQRCode: function(content, callback) {
-    //在画布上创建二维码
-    drawQrcode({
-      width: 200,
-      height: 200,
-      canvasId: 'myQrcode',
-      text: content,
-      _this: this,
-      callback: function() {
-        setTimeout(function() {
-          //将二维码部分复制出来
-          my.canvasGetImageData({
-            canvasId: 'myQrcode',
-            x: 0,
-            y: 0,
-            width: 200,
-            height: 200,
-            success: function(res) {
-              //填充整个画布
-              const ctx = my.createCanvasContext('myQrcode', this);
-              ctx.setFillStyle('white');
-              ctx.fillRect(0, 0, 220, 220);
-              ctx.draw();
-              //将刚刚复制出来的二维码写到中心
-              my.canvasPutImageData({
-                canvasId: 'myQrcode',
-                data: res.data,
-                x: 10,
-                y: 10,
-                width: 200,
-                success: function() {
-                  //画布内容创建临时文件
-                  my.canvasToTempFilePath({
-                    canvasId: 'myQrcode',
-                    success: function(res) {
-                      //预览
-                      my.previewImage({
-                        urls: [res.tempFilePath],
-                      });
-                    },
-                    fail: function() {
-                      app.showError("缓存二维码失败");
-                    }
-                  }, this);
-                },
-                fail: function() {
-                  app.showError('生成QR码错误2');
-                }
-              }, this);
-            }.bind(this),
-            fail: function() {
-              app.showError('生成QR码错误');
-            }
-          }, this);
-          callback();
-        }.bind(this), 300);
-      }
+    my.previewImage({
+      urls: ["http://qr.liantu.com/api.php?w=500&text=" + encodeURI(content)]
     });
+    callback();
   },
   /**
    * 获取Cookie详细并显示二维码
