@@ -1,6 +1,8 @@
 const hostURL = "https://amember.mfweb.top";
 
 App({
+  onLaunch: function() {
+  },
   globalData: {
     ApiUrls: {
       VerifyCodeURL: hostURL + "/nmb/Member/User/Index/verify.html",//请求验证码
@@ -42,19 +44,39 @@ App({
       WeUploadRunURL: hostURL + "/adao/member/uprun.php",//上传微信运动数据
       WeDownloadRunURL: hostURL + "/adao/member/dwrun.php",//获取微信运动排行
     },
-    AppList: Array(
-      'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',//iOS芦苇娘
-      'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',//iOS橙岛(贼贼贼)
-      'https://www.pgyer.com/adao',//安卓芦苇娘
-      'https://www.pgyer.com/nimingban',//安卓基佬紫
-      'https://www.microsoft.com/zh-cn/store/apps/a%E5%B2%9B%E5%8C%BF%E5%90%8D%E7%89%88/9nblggh1ng7h'//人权机
-    ),
+    AppList: [
+      {
+        name: 'iOS芦苇娘',
+        url: 'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',
+        icon: 'ilw.png'
+      },
+      {
+        name: 'iOS橙岛',
+        url: 'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',
+        icon: 'izzz.png'
+      },
+      {
+        name: '安卓芦苇娘',
+        url: 'https://www.pgyer.com/adao',
+        icon: 'alw.png'
+      },
+      {
+        name: '安卓基佬紫',
+        url: 'https://www.pgyer.com/nimingban',
+        icon: 'azd.png'
+      },
+      {
+        name: '人权芦苇娘',
+        url: 'https://www.microsoft.com/zh-cn/store/apps/a%E5%B2%9B%E5%8C%BF%E5%90%8D%E7%89%88/9nblggh1ng7h',
+        icon: 'rqlw.png'
+      },
+    ],
+    SystemInfo: {
+      Windows: {
+        statusBarHeight: 0
+      }
+    }
   },
-  todos: [
-    { text: 'Learning Javascript', completed: true },
-    { text: 'Learning ES2016', completed: true },
-    { text: 'Learning 支付宝小程序', completed: false },
-  ],
   showSuccess: function(msg) {
     if (msg.length > 7) {
       my.alert({
@@ -111,7 +133,7 @@ App({
       success: function(e) {
         if (e.index >= 0) {
           my.setClipboard({
-            text: this.globalData.AppList[e.index],
+            text: this.globalData.AppList[e.index].url,
             success: function() {
               this.showSuccess('链接已复制');
             }.bind(this),
@@ -121,27 +143,6 @@ App({
           });
         }
       }.bind(this)
-    });
-  },
-  ExitMenu: function() {
-    my.showActionSheet({
-      items: ['APP下载', '关于', '退出登录'],
-      success: function(e) {
-        if (e.index >= 0) {
-          if (e.index == 0) {//App下载
-            this.showDownloadAPP();
-          }
-          else if (e.index == 1) {//关于
-            my.navigateTo({
-              url: '../about/about',
-            });
-          }
-          else if (e.index == 2) {//退出登录
-            this.logOut();
-          }
-        }
-      }.bind(this),
-      fail: function() { }
     });
   },
   logOut: function() {

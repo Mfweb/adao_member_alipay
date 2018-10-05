@@ -1,4 +1,4 @@
-const http = require('http.js');
+const http = require('/utils/http.js');
 var getCookieRunning = false;
 var getDetailRunning = false;
 const app = getApp();

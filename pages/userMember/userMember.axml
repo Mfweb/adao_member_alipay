@@ -1,3 +1,106 @@
-<view>
-  New Page
+<import src="../../templates/menuButton/menuButton.axml"/>
+<import src="../../templates/popupMenu/popupMenu.axml"/>
+<import src="../../wxParse/wxParse.axml"/>
+<view a:if='{{popupMenuOpenData.selectedIndex==0}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
+  <view class='CookieList'>
+    <view class='CookieListTr'>
+      <view class='CookieListTd1 lTitle'>ID
+      </view>
+      <view class='CookieListTd2 lTitle'>饼干
+      </view>
+      <view class='CookieListTd3 lTitle'>操作
+      </view>
+    </view>
+    <view a:for="{{cookieManagerOpenData.CookieList}}" class='CookieListTr' a:key='{{index}}'>
+      <view class='CookieListTd1'>{{item.id}}
+      </view>
+      <view class='CookieListTd2'>{{item.value}}
+      </view>
+      <view class='CookieListTd3'>
+        <button id='{{index}}' onTap='onDeleteCookie' class='cButton' loading='{{item.delLoading}}' type='warn' size='mini'>删除
+        </button>
+        <button id='{{index}}' onTap='onGetCookie' class='cButton' loading='{{item.getLoading}}' type='primary' size='mini'>获取
+        </button>
+      </view>
+    </view>
+    <view class='cookie-num'>饼干槽:{{cookieManagerOpenData.CookieNum}}
+    </view>
+    <view a:if='{{cookieManagerOpenData.CookieWarning!=null}}' class='cookie-warn'>{{cookieManagerOpenData.CookieWarning}}
+    </view>
+    <form a:if='{{cookieManagerOpenData.vCodeShow}}' class='vcodeMode' id='{{cookieManagerOpenData.FormID}}' onSubmit='onEnterCookie'>
+      <input name='needDeleteID' value='{{cookieManagerOpenData.needDeleteID}}' style='display:none;'>
+      </input>
+      <image a:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' onTap='onTapVerifyCode'>
+      </image>
+      <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' onTap='onTapVerifyCode'>
+      </image>
+      <input class='McodeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='done'>
+      </input>
+      <button class='Uenter' form-type='submit' loading='{{cookieManagerOpenData.EnterButLoading}}' type='primary'>确认操作
+      </button>
+      <button class='Uclose' type='warn' onTap='onUClose'>取消操作
+      </button>
+    </form>
+    <button onTap='onGetNewCookie' class='nButton' type='primary'>获取新Cookie
+    </button>
+  </view>
 </view>
+<view a:if='{{popupMenuOpenData.selectedIndex==1}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
+  <view class='certTable'>
+    <view>实名认证状态：
+    </view>
+    <view class='certSta'>{{authOpenData.CertStatus}}
+    </view>
+  </view>
+  <view class='certTable'>
+    <view>手机认证状态：
+    </view>
+    <view class='certSta'>{{authOpenData.PhoneStatus}}
+    </view>
+  </view>
+  <form a:if='{{authOpenData.CertFormShow}}' class='vcodeMode' id='Cert' onSubmit='onEnterAuth'>
+    <view class="SelectCd">
+      <picker onChange="bindPickerChange" value="{{authOpenData.Cindex}}" range="{{authOpenData.Carray}}">
+        <view class="picker">          选择国家：{{authOpenData.Carray[authOpenData.Cindex]}}          
+        </view>
+      </picker>
+    </view>
+    <input class='McodeInput' name='phonenumber' type='number' placeholder='输入手机号' confirm-type='done'>
+    </input>
+    <input class='McodeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='done'>
+    </input>
+    <image a:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' onTap='onTapVerifyCode'>
+    </image>
+    <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' onTap='onTapVerifyCode'>
+    </image>
+    <button class='Uenter' form-type='submit' loading='{{authOpenData.EnterButLoading}}' type='primary'>确认操作
+    </button>
+    <button class='Uclose' type='warn' onTap='onAuthClose'>取消操作
+    </button>
+  </form>
+  <template a:if='{{authOpenData.ShowCertMsg}}' is="wxParse" data="{{wxParseData:authOpenData.CertMsg}}"/>
+  <button a:if='{{authOpenData.ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{authOpenData.CopyLoading}}' onTap='onCopyAuthPhoneNumber'>复制手机号
+  </button>
+  <button a:if='{{authOpenData.CanCert && (!authOpenData.ShowCertMsg && !authOpenData.CertFormShow)}}' class='PhoneCertBut' type='primary' onTap='onPhoneCert'>点击进行手机认证
+  </button>
+</view>
+<view a:if='{{popupMenuOpenData.selectedIndex==2}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
+  <form class='nPasswd' onSubmit='onChangePasswdSubmit'>
+    <view class='loginForm'>
+      <input class='emailInput' name='opass' type='text' placeholder='输入旧密码' password='true' confirm-type='next'>
+      </input>
+      <input class='pswInput' name='npass' type='text' placeholder='新密码' password='true' confirm-type='next'>
+      </input>
+      <input class='codeInput' name='npass2' type='text' placeholder='再来一遍' password='true' confirm-type='go'>
+      </input>
+    </view>
+    <button loading='{{changePasswdOpenData.CPLoading}}' class='passwd-enter-button' type='primary' form-type='submit' submit='changepasswd'>确认修改
+    </button>
+  </form>
+</view>
+
+<template is="menuButton" data="{{statusBarHeight}}">
+</template>
+<canvas class='qrCanvas' canvas-id="myQrcode">
+</canvas>
+<template is="popupMenu" data="{{...popupMenuOpenData}}"/>

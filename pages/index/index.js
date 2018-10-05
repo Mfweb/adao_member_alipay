@@ -22,8 +22,7 @@ Page({
   onReady: function() {
     let sUN = my.getStorageSync({ key: 'UserName' }).data;
     let sPW = my.getStorageSync({ key: 'PassWord' }).data;
-    console.log(sUN);
-    console.log(sPW);
+
     if (sUN != null && sPW != null) {
       rememberPW = true;
       this.setData({ RememberPW: true, UserName: sUN, PassWord: sPW });
