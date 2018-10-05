@@ -13,7 +13,18 @@ Page({
     verifyCodeURL: "",//验证码链接
     vCodeLoading: false,//验证码是否在载入
 
-    cookieManagerOpenData: {
+    cookieManagerOpenData: {},
+    authOpenData: {},
+    changePasswdOpenData: {},
+    popupMenuOpenData: {},
+  },
+  resetData: function() {
+    this.data.pullDownRefing = false;
+    this.data.statusBarHeight = app.globalData.SystemInfo.Windows.statusBarHeight;
+    this.data.verifyCodeURL = "";//验证码链接
+    this.data.vCodeLoading = false;//验证码是否在载入
+
+    this.data.cookieManagerOpenData = {
       CookieList: [],//饼干列表
       vCodeShow: false,//验证码是否已显示
       needDeleteID: "",//需要删除的饼干index
@@ -21,8 +32,8 @@ Page({
       EnterButLoading: false,//确认按钮loading
       CookieNum: '[0/0]',
       CookieWarning: null,
-    },
-    authOpenData: {
+    };
+    this.data.authOpenData = {
       EnterButLoading: false,//确认按钮loading
       CertStatus: "未知",//实名认证状态
       PhoneStatus: "未知",//手机实名认证状态
@@ -44,11 +55,11 @@ Page({
       CertMsg: null,//手机实名认证显示的消息
       ShowCertMsg: false,//是否显示实名认证消息
       CopyLoading: false,//复制手机号loading
-    },
-    changePasswdOpenData: {
+    };
+    this.data.changePasswdOpenData = {
       CPLoading: false
-    },
-    popupMenuOpenData: {
+    };
+    this.data.popupMenuOpenData = {
       show: false,
       statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
       selectedIndex: 0,
@@ -77,12 +88,24 @@ Page({
           icon: 'exit'
         },
       ]
-    },
+    };
+    this.setData({
+      pullDownRefing: this.data.pullDownRefing,
+      statusBarHeight: this.data.statusBarHeight,
+      verifyCodeURL: this.data.verifyCodeURL,
+      vCodeLoading: this.data.vCodeLoading,
+
+      cookieManagerOpenData: this.data.cookieManagerOpenData,
+      authOpenData: this.data.authOpenData,
+      changePasswdOpenData: this.data.changePasswdOpenData,
+      popupMenuOpenData: this.data.popupMenuOpenData,
+    });
   },
   /**
    * 页面渲染完成
    */
   onReady: function() {
+    this.resetData();
     this.pullDownRefreshAll();
     this.data.popupMenuOpenData.userName = my.getStorageSync({key: 'UserName'}).data;
     if (this.data.popupMenuOpenData.userName == undefined || this.data.popupMenuOpenData.userName == '') {
