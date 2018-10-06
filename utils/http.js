@@ -45,7 +45,6 @@ function _get_verifycode(success,fail)
   const app = getApp();
   my.downloadFile({
     url: app.globalData.ApiUrls.VerifyCodeURL + "?code=" + Math.random(),
-
     success: function(res)
     {
       if (success != null)
@@ -62,7 +61,6 @@ function _get_verifycode(success,fail)
 function get_verifycode(callback) {
   if (gettingVCode)return;
   gettingVCode = true;
-  
   _get_verifycode(function (res) {
     gettingVCode = false;
     callback(true, res.apFilePath);
