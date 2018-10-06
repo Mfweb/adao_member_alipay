@@ -10,8 +10,6 @@
     </view>
     <view class="h2" onTap='tap2'>GitHub    
     </view>
-    <view class="h2" onTap='tap3'>A岛微信小程序    
-    </view>
     <view class="h3">紫岛图标为Hippo Seven所有，所有权利保留    
     </view>
     <view class="h3">iOS橙岛图标为贼贼贼所有，所有权利保留    

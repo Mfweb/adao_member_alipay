@@ -29,21 +29,6 @@ App({
       GetSharesURL: hostURL + "/adao/getshare.php",
       //获取服务条款
       GetTermsURL: hostURL + "/adao/member/getterms.php",
-      GetCDNURL: "https://nmb.fastmirror.org/Api/getCdnPath?appid=wechatapp",//获取CDN地址
-      //主岛配置
-      ThreadURL: hostURL + "/nmb/Api/thread?appid=wechatapp",//获得串内容和回复
-      GetThreadURL: hostURL + "/nmb/Api/ref?appid=wechatapp",//获得串内容
-      ThumbImgURL: "https://nmbimg.fastmirror.org/thumb/",//缩略图
-      FullImgURL: "https://nmbimg.fastmirror.org/image/",//原图
-      //备胎岛配置
-      BTThreadURL: hostURL + "/btnmb/Api/thread?appid=wechatapp",//获得串内容和回复
-      BTGetThreadURL: hostURL + "/btnmb/Api/ref?appid=wechatapp",//获得串内容
-      BTThumbImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/thumb/",//缩略图
-      BTFullImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/image/",//原图
-      //小程序功能
-      WeLoginURL: hostURL + "/adao/member/login.php",//登录
-      WeUploadRunURL: hostURL + "/adao/member/uprun.php",//上传微信运动数据
-      WeDownloadRunURL: hostURL + "/adao/member/dwrun.php",//获取微信运动排行
     },
     AppList: [
       {
