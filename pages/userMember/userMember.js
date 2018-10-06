@@ -18,83 +18,75 @@ Page({
     popupMenuOpenData: {},
   },
   resetData: function() {
-    this.data.statusBarHeight = app.globalData.SystemInfo.Windows.statusBarHeight;
-    this.data.verifyCodeURL = "";//验证码链接
-    this.data.vCodeLoading = false;//验证码是否在载入
-
-    this.data.cookieManagerOpenData = {
-      CookieList: [],//饼干列表
-      vCodeShow: false,//验证码是否已显示
-      needDeleteID: "",//需要删除的饼干index
-      FormID: "",//表单提交ID
-      EnterButLoading: false,//确认按钮loading
-      CookieNum: '[0/0]',
-      CookieWarning: null,
-    };
-    this.data.authOpenData = {
-      EnterButLoading: false,//确认按钮loading
-      CertStatus: "未知",//实名认证状态
-      PhoneStatus: "未知",//手机实名认证状态
-      CanCert: false,//是否可以手机实名认证（是否显示按钮）
-      CertFormShow: false,//实名认证表单是否显示
-      Cindex: 0,
-      Carray: [
-        '中国 - +86', '美国 - +1', '加拿大 - +1', '香港 - +852', '澳门 - +853', '台湾 - +886', '马来西亚 - +60', '印度尼西亚 - +62',
-        '新加坡 - +65', '泰国 - +66', '日本 - +81', '韩国 - +82', '越南 - +84', '哈萨克斯坦 - +7', '塔吉克斯坦 - +7', '土耳其 - +90', '印度 - +91',
-        '巴基斯坦 - +92', '阿富汗 - +93', '斯里兰卡 - +94', '缅甸 - +95', '伊朗 - +98', '文莱 - +673', '朝鲜 - +850', '柬埔寨 - +855', '老挝 - +865',
-        '孟加拉国 - +880', '马尔代夫 - +960', '叙利亚 - +963', '伊拉克 - +964', '巴勒斯坦 - +970', '阿联酋 - +971', '以色列 - +972', '巴林 - +973',
-        '不丹 - +975', '蒙古 - +976', '尼珀尔 - +977', '英国 - +44', '德国 - +49', '意大利 - +39', '法国 - +33', '俄罗斯 - +7', '希腊 - +30', '荷兰 - +31',
-        '比利时 - +32', '西班牙 - +34', '匈牙利 - +36', '罗马尼亚 - +40', '瑞士 - +41', '奥地利 - +43', '丹麦 - +45', '瑞典 - +46', '挪威 - +47',
-        '波兰 - +48', '圣马力诺 - +223', '匈牙利 - +336', '南斯拉夫 - +338', '直布罗陀 - +350', '葡萄牙 - +351', '卢森堡 - +352', '爱尔兰 - +353',
-        '冰岛 - +354', '马耳他 - +356', '塞浦路斯 - +357', '芬兰 - +358', '保加利亚 - +359', '立陶宛 - +370', '乌克兰 - +380', '南斯拉夫 - +381',
-        '捷克 - +420', '秘鲁 - +51', '墨西哥 - +52', '古巴 - +53', '阿根廷 - +54', '巴西 - +55', '智利 - +56', '哥伦比亚 - +57', '委内瑞拉 - +58',
-        '澳大利亚 - +61', '新西兰 - +64', '关岛 - +671', '斐济 - +679', '圣诞岛 - +619164', '夏威夷 - +1808', '阿拉斯加 - +1907', '格陵兰岛 - +299',
-        '牙买加 - +1876', '南极洲 - +64672'],
-      CertMsg: null,//手机实名认证显示的消息
-      ShowCertMsg: false,//是否显示实名认证消息
-      CopyLoading: false,//复制手机号loading
-    };
-    this.data.changePasswdOpenData = {
-      CPLoading: false
-    };
-    this.data.popupMenuOpenData = {
-      show: false,
-      statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
-      selectedIndex: 0,
-      picURL: '',
-      userName: '匿名肥宅',
-      menuList: [
-        {
-          name: '饼干管理',
-          icon: 'cookie'
-        },
-        {
-          name: '实名认证',
-          icon: 'certified'
-        },
-        {
-          name: '密码修改',
-          icon: 'passwd'
-        },
-        {
-          name: '关于',
-          icon: 'about'
-        },
-        {
-          name: '退出',
-          icon: 'exit'
-        },
-      ]
-    };
     this.setData({
-      statusBarHeight: this.data.statusBarHeight,
-      verifyCodeURL: this.data.verifyCodeURL,
-      vCodeLoading: this.data.vCodeLoading,
+      statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
+      verifyCodeURL: "",
+      vCodeLoading: false,
 
-      cookieManagerOpenData: this.data.cookieManagerOpenData,
-      authOpenData: this.data.authOpenData,
-      changePasswdOpenData: this.data.changePasswdOpenData,
-      popupMenuOpenData: this.data.popupMenuOpenData,
+      cookieManagerOpenData: {
+        CookieList: [],//饼干列表
+        vCodeShow: false,//验证码是否已显示
+        needDeleteID: "",//需要删除的饼干index
+        FormID: "",//表单提交ID
+        EnterButLoading: false,//确认按钮loading
+        CookieNum: '[0/0]',
+        CookieWarning: null,
+      },
+      authOpenData: {
+        EnterButLoading: false,//确认按钮loading
+        CertStatus: "未知",//实名认证状态
+        PhoneStatus: "未知",//手机实名认证状态
+        CanCert: false,//是否可以手机实名认证（是否显示按钮）
+        CertFormShow: false,//实名认证表单是否显示
+        Cindex: 0,
+        Carray: [
+          '中国 - +86', '美国 - +1', '加拿大 - +1', '香港 - +852', '澳门 - +853', '台湾 - +886', '马来西亚 - +60', '印度尼西亚 - +62',
+          '新加坡 - +65', '泰国 - +66', '日本 - +81', '韩国 - +82', '越南 - +84', '哈萨克斯坦 - +7', '塔吉克斯坦 - +7', '土耳其 - +90', '印度 - +91',
+          '巴基斯坦 - +92', '阿富汗 - +93', '斯里兰卡 - +94', '缅甸 - +95', '伊朗 - +98', '文莱 - +673', '朝鲜 - +850', '柬埔寨 - +855', '老挝 - +865',
+          '孟加拉国 - +880', '马尔代夫 - +960', '叙利亚 - +963', '伊拉克 - +964', '巴勒斯坦 - +970', '阿联酋 - +971', '以色列 - +972', '巴林 - +973',
+          '不丹 - +975', '蒙古 - +976', '尼珀尔 - +977', '英国 - +44', '德国 - +49', '意大利 - +39', '法国 - +33', '俄罗斯 - +7', '希腊 - +30', '荷兰 - +31',
+          '比利时 - +32', '西班牙 - +34', '匈牙利 - +36', '罗马尼亚 - +40', '瑞士 - +41', '奥地利 - +43', '丹麦 - +45', '瑞典 - +46', '挪威 - +47',
+          '波兰 - +48', '圣马力诺 - +223', '匈牙利 - +336', '南斯拉夫 - +338', '直布罗陀 - +350', '葡萄牙 - +351', '卢森堡 - +352', '爱尔兰 - +353',
+          '冰岛 - +354', '马耳他 - +356', '塞浦路斯 - +357', '芬兰 - +358', '保加利亚 - +359', '立陶宛 - +370', '乌克兰 - +380', '南斯拉夫 - +381',
+          '捷克 - +420', '秘鲁 - +51', '墨西哥 - +52', '古巴 - +53', '阿根廷 - +54', '巴西 - +55', '智利 - +56', '哥伦比亚 - +57', '委内瑞拉 - +58',
+          '澳大利亚 - +61', '新西兰 - +64', '关岛 - +671', '斐济 - +679', '圣诞岛 - +619164', '夏威夷 - +1808', '阿拉斯加 - +1907', '格陵兰岛 - +299',
+          '牙买加 - +1876', '南极洲 - +64672'],
+        CertMsg: null,//手机实名认证显示的消息
+        ShowCertMsg: false,//是否显示实名认证消息
+        CopyLoading: false,//复制手机号loading
+      },
+      changePasswdOpenData: {
+        CPLoading: false
+      },
+      popupMenuOpenData: {
+        show: false,
+        statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
+        selectedIndex: 0,
+        picURL: '',
+        userName: '匿名肥宅',
+        menuList: [
+          {
+            name: '饼干管理',
+            icon: 'cookie'
+          },
+          {
+            name: '实名认证',
+            icon: 'certified'
+          },
+          {
+            name: '密码修改',
+            icon: 'passwd'
+          },
+          {
+            name: '关于',
+            icon: 'about'
+          },
+          {
+            name: '退出',
+            icon: 'exit'
+          },
+        ]
+      },
     });
   },
   /**
@@ -103,14 +95,13 @@ Page({
   onReady: function() {
     this.resetData();
     this.pullDownRefreshAll();
-    this.data.popupMenuOpenData.userName = my.getStorageSync({key: 'UserName'}).data;
-    if (this.data.popupMenuOpenData.userName == undefined || this.data.popupMenuOpenData.userName == '') {
-      this.data.popupMenuOpenData.userName = '匿名肥宅';
+    let userName = my.getStorageSync({key: 'UserName'}).data;
+    if (userName == null || userName == '') {
+      userName = '匿名肥宅';
     }
-    this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+    this.setData({ 'popupMenuOpenData.userName': userName });
     app.getImage(function(url) {
-      this.data.popupMenuOpenData.picURL = url;
-      this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+      this.setData({ 'popupMenuOpenData.picURL': url });
     }.bind(this));
   },
   /**
@@ -128,8 +119,7 @@ Page({
   onPullDownRefresh: function() {
     if (this.data.popupMenuOpenData.selectedIndex == 0) {
       //处理饼干数据
-      this.data.cookieManagerOpenData.vCodeShow = false;
-      this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+      this.setData({ 'cookieManagerOpenData.vCodeShow': false });
       this.getCookies();
     }
     else if (this.data.popupMenuOpenData.selectedIndex == 1) {
@@ -139,9 +129,10 @@ Page({
         timer = null;
       }
       this.getCertifiedStatus();
-      this.data.authOpenData.CertFormShow = false;
-      this.data.authOpenData.ShowCertMsg = false;
-      this.setData({ authOpenData: this.data.authOpenData });
+      this.setData({
+        'authOpenData.CertFormShow': false,
+        'authOpenData.ShowCertMsg': false
+      });
     }
     else if (this.data.popupMenuOpenData.selectedIndex == 2) {
       my.stopPullDownRefresh();
@@ -160,25 +151,22 @@ Page({
       app.logOut();
     }
     else {
-      this.data.popupMenuOpenData.selectedIndex = e.currentTarget.id;
+      this.setData({ 'popupMenuOpenData.selectedIndex': e.currentTarget.id });
     }
-    this.data.popupMenuOpenData.show = false;
-    this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+    this.setData({ 'popupMenuOpenData.show': false });
   },
 
   /**
    * 点击了左上角菜单按钮
    */
   onTapMenuButton: function(e) {
-    this.data.popupMenuOpenData.show = true;
-    this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+    this.setData({ 'popupMenuOpenData.show': true });
   },
   /**
    * 点击了遮罩层
    */
   onTapOverlay: function() {
-    this.data.popupMenuOpenData.show = false;
-    this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+    this.setData({ 'popupMenuOpenData.show': false });
   },
   onPopupMenuCatchScroll: function() {
 
@@ -188,10 +176,11 @@ Page({
   },
   pullDownRefreshAll: function() {
     my.showNavigationBarLoading();
-    this.data.cookieManagerOpenData.vCodeShow = false;
-    this.data.authOpenData.CertFormShow = false;
-    this.data.authOpenData.ShowCertMsg = false;
-    this.setData({ authOpenData: this.data.authOpenData, cookieManagerOpenData: this.data.cookieManagerOpenData });
+    this.setData({
+      'cookieManagerOpenData.vCodeShow': false,
+      'authOpenData.CertFormShow': false,
+      'authOpenData.ShowCertMsg': false,
+    });
 
     //处理饼干数据
     this.getCookies();
@@ -207,8 +196,7 @@ Page({
    * 点击了关闭实名认证
    */
   onAuthClose: function() {
-    this.data.authOpenData.CertFormShow = false;
-    this.setData({ authOpenData: this.data.authOpenData });
+    this.setData({ 'authOpenData.CertFormShow': false });
   },
   /**
    * 确认修改密码
@@ -226,8 +214,7 @@ Page({
       return;
     }
     if (this.data.changePasswdOpenData.CPLoading == true) return;
-    this.data.changePasswdOpenData.CPLoading = true;
-    this.setData({ changePasswdOpenData: this.data.changePasswdOpenData });
+    this.setData({ 'changePasswdOpenData.CPLoading': true });
 
     http.api_request(
       app.globalData.ApiUrls.ChangePasswordURL,
@@ -246,13 +233,11 @@ Page({
         else {
           app.showError("发生了错误");
         }
-        this.data.changePasswdOpenData.CPLoading = false;
-        this.setData({ changePasswdOpenData: this.data.changePasswdOpenData });
+        this.setData({ 'changePasswdOpenData.CPLoading': false });
       }.bind(this),
       function() {
         app.showError('发生了错误');
-        this.data.changePasswdOpenData.CPLoading = false;
-        this.setData({ changePasswdOpenData: this.data.changePasswdOpenData });
+        this.setData({ 'changePasswdOpenData.CPLoading': false });
       }.bind(this)
     );
   },
@@ -266,8 +251,7 @@ Page({
       return;
     }
     if (this.data.authOpenData.EnterButLoading == true) return;
-    this.data.authOpenData.EnterButLoading = true;
-    this.setData({ authOpenData: this.data.authOpenData });
+    this.setData({ 'authOpenData.EnterButLoading': true });
 
     var u_country = this.data.authOpenData.Cindex + 1;
     var u_phone = e.detail.value.phonenumber;
@@ -296,10 +280,11 @@ Page({
             var body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
             if (body_match != null) {
               body_match[0] = body_match[0].replace(/tpl-form-maintext">[\s\D]*<b>/ig, "Sdata\"><b>");
-              this.data.authOpenData.CertMsg = WxParse.wxParse('item', 'html', body_match[0], this, null).nodes;
-              this.data.authOpenData.ShowCertMsg = true;
-              this.data.authOpenData.CertFormShow = false;
-              this.setData({ authOpenData: this.data.authOpenData });
+              this.setData({
+                'authOpenData.CertMsg': WxParse.wxParse('item', 'html', body_match[0], this, null).nodes,
+                'authOpenData.ShowCertMsg': true,
+                'authOpenData.CertFormShow': false
+              });
               this.waitCert();
             }
             else {
@@ -307,20 +292,17 @@ Page({
             }
           }
 
-          this.data.authOpenData.EnterButLoading = false;
-          this.setData({ authOpenData: this.data.authOpenData });
+          this.setData({ 'authOpenData.EnterButLoading': false });
         }
         catch (err) {
           app.log(err.message);
           app.showError(err.message);
-          this.data.authOpenData.EnterButLoading = false;
-          this.setData({ authOpenData: this.data.authOpenData });
+          this.setData({ 'authOpenData.EnterButLoading': false });
         }
       }.bind(this),
       function() {
         app.showError('发生了错误');
-        this.data.authOpenData.EnterButLoading = false;
-        this.setData({ authOpenData: this.data.authOpenData });
+        this.setData({ 'authOpenData.EnterButLoading': false });
       }.bind(this));
   },
   /**
@@ -328,23 +310,20 @@ Page({
    */
   onPhoneCert: function() {
     this.getNewVcode();
-    this.data.authOpenData.CertFormShow = true;
-    this.setData({ authOpenData: this.data.authOpenData });
+    this.setData({ 'authOpenData.CertFormShow': true });
   },
   /**
    * 修改了国家选择Picker
    */
   bindPickerChange: function(e) {
-    this.data.authOpenData.Cindex = e.detail.value;
-    this.setData({ authOpenData: this.data.authOpenData });
+    this.setData({ 'authOpenData.Cindex ': e.detail.value });
   },
   /**
    * 点击了复制手机号
    */
   onCopyAuthPhoneNumber: function(e) {
     if (this.data.authOpenData.CopyLoading == true) return;
-    this.data.authOpenData.CopyLoading = true;
-    this.setData({ authOpenData: this.data.authOpenData });
+    this.setData({ 'authOpenData.CopyLoading': true });
 
     http.api_request(
       app.globalData.ApiUrls.GetAuthPhoneURL,
@@ -366,13 +345,11 @@ Page({
             }
           });
         }
-        this.data.authOpenData.CopyLoading = false;
-        this.setData({ authOpenData: this.data.authOpenData });
+        this.setData({ 'authOpenData.CopyLoading': false });
       }.bind(this),
       function() {
         app.showError('获取失败');
-        this.data.authOpenData.CopyLoading = false;
-        this.setData({ authOpenData: this.data.authOpenData });
+        this.setData({ 'authOpenData.CopyLoading': false });
       }.bind(this)
     );
   },
@@ -382,10 +359,11 @@ Page({
    */
   onDeleteCookie: function(e) {
     this.getNewVcode();
-    this.data.cookieManagerOpenData.vCodeShow = true;
-    this.data.cookieManagerOpenData.needDeleteID = e.target.id;
-    this.data.cookieManagerOpenData.FormID = 'delete';
-    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+    this.setData({
+      'cookieManagerOpenData.vCodeShow': true,
+      'cookieManagerOpenData.needDeleteID': e.target.id,
+      'cookieManagerOpenData.FormID': 'delete'
+    });
   },
   /**
    * 点击了获取饼干按钮
@@ -408,8 +386,7 @@ Page({
    * 点击了关闭验证码输入框按钮
    */
   onUClose: function(e) {
-    this.data.cookieManagerOpenData.vCodeShow = false;
-    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+    this.setData({ 'cookieManagerOpenData.vCodeShow': false });
   },
   /**
    * 确认操作删除或获取饼干
@@ -422,27 +399,22 @@ Page({
       return;
     }
     if (this.data.cookieManagerOpenData.EnterButLoading == true) return;
-    this.data.cookieManagerOpenData.EnterButLoading = true;
-    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+    this.setData({ 'cookieManagerOpenData.EnterButLoading': true });
     if (e.target.id == 'delete')//删除Cookie
     {
-      if (this.data.cookieManagerOpenData.CookieList[u_index] == true) return;
-
-      var temp_data = this.data.cookieManagerOpenData;
-      temp_data.CookieList[u_index].delLoading = true;
-      this.setData({ cookieManagerOpenData: temp_data });//对应的删除按钮显示loading
-      temp_data.CookieList[u_index].delLoading = false;
+      if (this.data.cookieManagerOpenData.CookieList[u_index].delLoading == true) return;
+      var selectData = 'cookieManagerOpenData.CookieList[' + u_index + '].delLoading';
+      this.setData({ [selectData]: true });//对应的删除按钮显示loading
 
       http.api_request(
-        app.globalData.ApiUrls.CookieDeleteURL + temp_data.CookieList[u_index].id + ".html",
+        app.globalData.ApiUrls.CookieDeleteURL + this.data.cookieManagerOpenData.CookieList[u_index].id + ".html",
         {
           verify: u_vcode
         },
         function(res) {
           if (res.status == 1) {
             my.startPullDownRefresh({});//删除请求成功，刷新页面
-            this.data.cookieManagerOpenData.vCodeShow = false;
-            this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+            this.setData({ 'cookieManagerOpenData.vCodeShow': false });
             app.showSuccess('删除完成');
             app.log('cookie delete success');
           }
@@ -451,13 +423,17 @@ Page({
             this.getNewVcode();
             app.showError(res.info);
           }
-          this.data.cookieManagerOpenData.EnterButLoading = false;
-          this.setData({ cookieManagerOpenData: temp_data, cookieManagerOpenData: this.data.cookieManagerOpenData });
+          this.setData({
+            'cookieManagerOpenData.EnterButLoading': false,
+            [selectData]: false
+          });
         }.bind(this),
         function() {
           app.showError('发生了错误');
-          this.data.cookieManagerOpenData.EnterButLoading = false;
-          this.setData({ cookieManagerOpenData: temp_data, cookieManagerOpenData: this.data.cookieManagerOpenData });
+          this.setData({
+            [selectData]: false,
+            'cookieManagerOpenData.EnterButLoading': false
+          });
         }.bind(this));
     }
     else if (e.target.id == 'new')//获取新Cookie
@@ -479,14 +455,14 @@ Page({
             app.log('get new cookie error:' + res.info);
             app.showError(res.info);
           }
-          this.data.cookieManagerOpenData.vCodeShow = false;
-          this.data.cookieManagerOpenData.EnterButLoading = false;
-          this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+          this.setData({
+            'cookieManagerOpenData.vCodeShow': false,
+            'cookieManagerOpenData.EnterButLoading': false
+          });
         }.bind(this),
         function() {
           app.showError('发生了错误');
-          this.data.cookieManagerOpenData.EnterButLoading = false;
-          this.setData({ EnterButLoading: false, cookieManagerOpenData: this.data.cookieManagerOpenData });
+          this.setData({ 'cookieManagerOpenData.EnterButLoading': false });
         }.bind(this));
     }
   },
@@ -494,9 +470,10 @@ Page({
    * 获取新Cookie
    */
   onGetNewCookie: function() {
-    this.data.cookieManagerOpenData.vCodeShow = true;
-    this.data.cookieManagerOpenData.FormID = 'new';
-    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+    this.setData({
+      'cookieManagerOpenData.vCodeShow': true,
+      'cookieManagerOpenData.FormID': 'new'
+    });
     this.getNewVcode();
   },
   /**
@@ -523,11 +500,11 @@ Page({
   getCookies: function(callback = null) {
     cookie.getCookies(function(status, msg, info) {
       if (info != null) {
-        this.data.cookieManagerOpenData.CookieNum = info.capacity;
-        this.data.cookieManagerOpenData.CookieWarning = info.warning;
+        this.setData({
+          'cookieManagerOpenData.CookieNum': info.capacity,
+          'cookieManagerOpenData.CookieWarning': info.warning
+        });
       }
-
-      this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData});
       my.stopPullDownRefresh();
 
       if (status == false) {
@@ -535,8 +512,7 @@ Page({
         if (callback !== null) callback(false);
         return;
       }
-      this.data.cookieManagerOpenData.CookieList = msg;
-      this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+      this.setData({ 'cookieManagerOpenData.CookieList': msg });
       if (callback !== null) callback(true);
       my.hideNavigationBarLoading();
     }.bind(this));
@@ -554,22 +530,20 @@ Page({
    * 获取Cookie详细并显示二维码
    */
   getCookieQR: function(index) {
-    var temp_data = this.data.cookieManagerOpenData;
-    if (temp_data.CookieList[index].getLoading == true) return;
-    temp_data.CookieList[index].getLoading = true;
-    this.setData({ cookieManagerOpenData: temp_data });
-    temp_data.CookieList[index].getLoading = false;
+    if (this.data.cookieManagerOpenData.CookieList[index].getLoading == true) return;
+    var selectData = 'cookieManagerOpenData.CookieList[' + index + '].getLoading';
+    this.setData({ [selectData]: true });
 
-    cookie.getCookieDetail(temp_data.CookieList[index].id, function(sta, detail) {
+    cookie.getCookieDetail(this.data.cookieManagerOpenData.CookieList[index].id, function(sta, detail) {
       if (sta == true) {
         this.createQRCode(JSON.stringify({ cookie: detail }), function() {
-          this.setData({ cookieManagerOpenData: temp_data });
+          this.setData({ [selectData]: false });
           return;
         }.bind(this));
       }
       else {
         app.showError(detail);
-        this.setData({ cookieManagerOpenData: temp_data });
+        this.setData({ [selectData]: false });
       }
     }.bind(this));
   },
@@ -577,13 +551,11 @@ Page({
     * 获取Cookie详细并复制到剪切板
     */
   getCookieToClipboard: function(index) {
-    var temp_data = this.data.cookieManagerOpenData;
-    if (temp_data.CookieList[index].getLoading == true) return;
-    temp_data.CookieList[index].getLoading = true;
-    this.setData({ cookieManagerOpenData: temp_data });
-    temp_data.CookieList[index].getLoading = false;
+    if (this.data.cookieManagerOpenData.CookieList[index].getLoading == true) return;
+    var selectData = 'cookieManagerOpenData.CookieList[' + index + '].getLoading';
+    this.setData({ [selectData]: true });
 
-    cookie.getCookieDetail(temp_data.CookieList[index].id, function(sta, detail) {
+    cookie.getCookieDetail(this.data.cookieManagerOpenData.CookieList[index].id, function(sta, detail) {
       if (sta == true) {
         my.setClipboard({
           text: detail,
@@ -598,7 +570,7 @@ Page({
       else {
         app.showError(detail);
       }
-      this.setData({ cookieManagerOpenData: temp_data });
+      this.setData({ [selectData]: false });
     }.bind(this));
   },
   /**
@@ -622,7 +594,7 @@ Page({
           cert_status = res.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
           if (cert_status != null) {
             cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
-            this.data.authOpenData.CertStatus = cert_status;
+            this.setData({ 'authOpenData.CertStatus': cert_status });
           }
           else {
             app.showError('实名状态错误');
@@ -634,21 +606,22 @@ Page({
             if (phone_status != null) {
               phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
               if (phone_status != null) {
-                this.data.authOpenData.PhoneStatus = phone_status;
+                this.setData({ 'authOpenData.PhoneStatus': phone_status });
               }
             }
-            this.data.authOpenData.CanCert = false;
+            this.setData({ 'authOpenData.CanCert': false });
           }
           else if (res.indexOf('绑定手机') > 0)//未进行手机实名认证
           {
-            this.data.authOpenData.PhoneStatus = '未认证';
-            this.data.authOpenData.CanCert = true;
+            this.setData({
+              'authOpenData.PhoneStatus': '未认证',
+              'authOpenData.CanCert': true
+            });
           }
         }
         else {
           app.showError('发生了错误');
         }
-        this.setData({ authOpenData: this.data.authOpenData });
         my.stopPullDownRefresh();
       }.bind(this),
       function() {

@@ -20,7 +20,7 @@
     </view>
     <view class="h3">其余图标均来自icons8.com    
     </view>
-    <image mode="aspectFit" src="{{pic_url}}" onTap='onTapImg'>
+    <image class="m-image" mode="aspectFit" src="{{pic_url}}" onTap='onTapImg'>
     </image>
   </view>
 </view>
