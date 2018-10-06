@@ -69,7 +69,7 @@ function get_verifycode(callback) {
   },
   function () {
     gettingVCode = false;
-    callback(true, "../../imgs/loaderror.png", '网络错误');
+    callback(false, "../../imgs/loaderror.png", '网络错误');
   });
 }
 

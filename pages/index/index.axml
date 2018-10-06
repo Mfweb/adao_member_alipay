@@ -27,7 +27,7 @@
     </view>
     <image a:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' onTap='onTapVerifyCode'>
     </image>
-    <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' onTap='onTapVerifyCode'>
+    <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' onLoad="vCodeOnLoad" src='{{verifyCodeURL}}' onTap='onTapVerifyCode'>
     </image>
     <view class='RememberPW'>记住密码
       <switch onChange='onRPW' checked='{{RememberPW}}' class='RememberSW' value='rememberPW'>

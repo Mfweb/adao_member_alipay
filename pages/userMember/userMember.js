@@ -413,7 +413,7 @@ Page({
         },
         function(res) {
           if (res.status == 1) {
-            my.startPullDownRefresh({});//删除请求成功，刷新页面
+            this.getCookies();
             this.setData({ 'cookieManagerOpenData.vCodeShow': false });
             app.showSuccess('删除完成');
             app.log('cookie delete success');
@@ -446,10 +446,9 @@ Page({
         function(res) {
           //app.log(res);
           if (res.status == 1) {
-            my.startPullDownRefresh({});//获取新Cookie成功，刷新页面
             app.showSuccess('大成功');
             app.log('get new cookie success');
-            my.startPullDownRefresh({});
+            this.getCookies();
           }
           else {
             app.log('get new cookie error:' + res.info);
@@ -643,9 +642,9 @@ Page({
             clearInterval(timer);
             timer = null;
             app.log('phone auth success');
-            my.startPullDownRefresh({});
+            this.getCertifiedStatus();
           }
-        },
+        }.bind(this),
         function() {
 
         }

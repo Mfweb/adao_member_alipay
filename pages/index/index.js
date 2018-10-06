@@ -66,6 +66,9 @@ Page({
   onTapVerifyCode: function(e) {
     this.getNewVcode();
   },
+  vCodeOnLoad: function() {
+
+  },
   onTapIlogin: function() {
     this.switchPage(0);
     this.getNewVcode();
