@@ -65,7 +65,7 @@ Page({
       selectedIndex: 0,
       picURL: '',
       userName: '匿名肥宅',
-      appList: app.globalData.AppList,
+      appList: [],
       menuList: [
         {
           name: '饼干管理',

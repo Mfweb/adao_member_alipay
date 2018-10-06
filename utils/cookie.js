@@ -76,23 +76,30 @@ function getCookieDetail(id, callback) {
   if (getDetailRunning)return;
   getDetailRunning = true;
   http.api_request(
-    app.globalData.ApiUrls.CookieGetDetailURL + id + ".html",
+    app.globalData.ApiUrls.CookieGetQRURL + id + ".html",
     null,
     function (res, header) {
-      if (header !== null && header !== undefined && header['Set-Cookie'] != null && header['Set-Cookie'] != undefined && typeof header['Set-Cookie'] == 'string') {
-        var cookieAll = header['Set-Cookie'];
-        if (cookieAll.indexOf('userhash=') >= 0) {
-          var cookieDetail = cookieAll.split(';');
-          for (let i = 0; i < cookieDetail.length; i++) {
-            if (cookieDetail[i].indexOf('userhash=') >= 0) {
-              callback(true, cookieDetail[i].replace(/userhash=/ig, ''));
-              getDetailRunning = false;
-              return;
-            }
+      if (res.indexOf('<div class="tpl-form-maintext"><img src="') > 0) {
+        res = res.replace(/ /g, "");
+        let temp_match = res.match(/<divclass="tpl-form-maintext"><imgsrc="[\s\S]*?"style=/ig);
+        if (temp_match != null) {
+          let qrCodeURL = temp_match[0].replace(/(<divclass="tpl-form-maintext"><imgsrc=")|("style=)/g, "");
+          let qrCodetext = decodeURIComponent(qrCodeURL.split('text=')[1]);
+          try{
+            console.log(JSON.parse(qrCodetext).cookie);
+            callback(true, JSON.parse(qrCodetext).cookie);
+          }
+          catch(e){
+            callback(false, '发生了错误1');
           }
         }
+        else {
+          callback(false, '发生了错误2');
+        }
       }
-      callback(false, '获取错误');
+      else {
+        callback(false, '发生了错误3');
+      }
       getDetailRunning = false;
     },
     function () {

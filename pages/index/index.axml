@@ -35,7 +35,7 @@
     </view>
     <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='login'>登录
     </button>
-    <view class='AppDownload' onTap='onAppDw'>App下载
+    <!--<view class='AppDownload' onTap='onAppDw'>App下载-->
     </view>
   </form>
   <!--注册-->
