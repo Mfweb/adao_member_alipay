@@ -86,7 +86,6 @@ function getCookieDetail(id, callback) {
           let qrCodeURL = temp_match[0].replace(/(<divclass="tpl-form-maintext"><imgsrc=")|("style=)/g, "");
           let qrCodetext = decodeURIComponent(qrCodeURL.split('text=')[1]);
           try{
-            console.log(JSON.parse(qrCodetext).cookie);
             callback(true, JSON.parse(qrCodetext).cookie);
           }
           catch(e){

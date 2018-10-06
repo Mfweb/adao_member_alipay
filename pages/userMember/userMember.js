@@ -8,7 +8,6 @@ var authData = null;
 
 Page({
   data: {
-    pullDownRefing: false,
     statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
     verifyCodeURL: "",//验证码链接
     vCodeLoading: false,//验证码是否在载入
@@ -19,7 +18,6 @@ Page({
     popupMenuOpenData: {},
   },
   resetData: function() {
-    this.data.pullDownRefing = false;
     this.data.statusBarHeight = app.globalData.SystemInfo.Windows.statusBarHeight;
     this.data.verifyCodeURL = "";//验证码链接
     this.data.vCodeLoading = false;//验证码是否在载入
@@ -90,7 +88,6 @@ Page({
       ]
     };
     this.setData({
-      pullDownRefing: this.data.pullDownRefing,
       statusBarHeight: this.data.statusBarHeight,
       verifyCodeURL: this.data.verifyCodeURL,
       vCodeLoading: this.data.vCodeLoading,
@@ -130,8 +127,6 @@ Page({
    * 开始下拉刷新
    */
   onPullDownRefresh: function() {
-    this.setData({ pullDownRefing: true });
-
     if (this.data.popupMenuOpenData.selectedIndex == 0) {
       //处理饼干数据
       this.data.cookieManagerOpenData.vCodeShow = false;
@@ -150,7 +145,6 @@ Page({
       this.setData({ authOpenData: this.data.authOpenData });
     }
     else if (this.data.popupMenuOpenData.selectedIndex == 2) {
-      this.setData({ pullDownRefing: false });
       my.stopPullDownRefresh();
     }
   },
@@ -209,10 +203,11 @@ Page({
     });
   },
   pullDownRefreshAll: function() {
+    my.showNavigationBarLoading();
     this.data.cookieManagerOpenData.vCodeShow = false;
     this.data.authOpenData.CertFormShow = false;
     this.data.authOpenData.ShowCertMsg = false;
-    this.setData({ authOpenData: this.data.authOpenData, cookieManagerOpenData: this.data.cookieManagerOpenData, pullDownRefing: true  });
+    this.setData({ authOpenData: this.data.authOpenData, cookieManagerOpenData: this.data.cookieManagerOpenData });
 
     //处理饼干数据
     this.getCookies();
@@ -548,7 +543,7 @@ Page({
         this.data.cookieManagerOpenData.CookieWarning = info.warning;
       }
 
-      this.setData({ pullDownRefing: false, cookieManagerOpenData: this.data.cookieManagerOpenData});
+      this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData});
       my.stopPullDownRefresh();
 
       if (status == false) {
@@ -559,6 +554,7 @@ Page({
       this.data.cookieManagerOpenData.CookieList = msg;
       this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
       if (callback !== null) callback(true);
+      my.hideNavigationBarLoading();
     }.bind(this));
   },
   /**
@@ -631,7 +627,6 @@ Page({
       function(res) {
         if (typeof res != 'string') {
           my.stopPullDownRefresh();
-          this.setData({ pullDownRefing: false });
           return;
         }
         res = res.replace(/ /g, '');
@@ -671,12 +666,10 @@ Page({
         }
         this.setData({ authOpenData: this.data.authOpenData });
         my.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
       }.bind(this),
       function() {
         app.showError('发生了错误');
         my.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
       }.bind(this)
     );
   },
