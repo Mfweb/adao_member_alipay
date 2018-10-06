@@ -19,7 +19,7 @@ App({
       MobileCertURL: hostURL + "/nmb/Member/User/Authentication/mobileReverseAuthCode",//手机认证
       MobileCheckURL: hostURL + "/nmb/Member/User/Authentication/isBindMobile",//手机认证校验
       ChangePasswordURL: hostURL + "/nmb/Member/User/Index/changePassword.html",//修改密码
-      LogoutURL: hostURL + "/nmb/Member/User/Index/logout.html",
+      LogoutURL: hostURL + "/nmb/Member/User/Index/logout.html",//退出登录
 
       GetNoticeURL: hostURL + "/adao/member/notice.php",//获取公告
       GetAuthPhoneURL: hostURL + "/adao/member/getphone.php",//获取三酱验证手机号
@@ -29,38 +29,6 @@ App({
       GetSharesURL: hostURL + "/adao/getshare.php",
       //获取服务条款
       GetTermsURL: hostURL + "/adao/member/getterms.php",
-    },
-    AppList: [
-      {
-        name: 'iOS芦苇娘',
-        url: 'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',
-        icon: 'ilw.png'
-      },
-      {
-        name: 'iOS橙岛',
-        url: 'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',
-        icon: 'izzz.png'
-      },
-      {
-        name: '安卓芦苇娘',
-        url: 'https://www.pgyer.com/adao',
-        icon: 'alw.png'
-      },
-      {
-        name: '安卓基佬紫',
-        url: 'https://www.pgyer.com/nimingban',
-        icon: 'azd.png'
-      },
-      {
-        name: '人权芦苇娘',
-        url: 'https://www.microsoft.com/zh-cn/store/apps/a%E5%B2%9B%E5%8C%BF%E5%90%8D%E7%89%88/9nblggh1ng7h',
-        icon: 'rqlw.png'
-      },
-    ],
-    SystemInfo: {
-      Windows: {
-        statusBarHeight: 0
-      }
     }
   },
   showSuccess: function(msg) {
@@ -113,24 +81,6 @@ App({
       logger.log(msg);
     }
   },
-  showDownloadAPP: function() {
-    my.showActionSheet({
-      items: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
-      success: function(e) {
-        if (e.index >= 0) {
-          my.setClipboard({
-            text: this.globalData.AppList[e.index].url,
-            success: function() {
-              this.showSuccess('链接已复制');
-            }.bind(this),
-            fail: function() {
-              this.showError('复制失败');
-            }.bind(this)
-          });
-        }
-      }.bind(this)
-    });
-  },
   logOut: function() {
     my.httpRequest({
       url: this.globalData.ApiUrls.LogoutURL,
@@ -149,7 +99,6 @@ App({
     my.playBackgroundAudio({
       dataUrl: this.globalData.ApiUrls.Tnnaii_H_IslandURL,
     });
-    this.log('play eat');
   },
   getTerms: function(callback = null) {
     var terms_saved;

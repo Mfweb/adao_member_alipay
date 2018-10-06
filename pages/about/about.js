@@ -30,17 +30,6 @@ Page({
       }
     });
   },
-  tap3: function(e) {
-    my.setClipboard({
-      text: 'https://mfweb.top/595.html',
-      success: function() {
-        app.showSuccess("链接已复制");
-      },
-      fail: function() {
-        app.showError("复制失败");
-      }
-    });
-  },
   onTapImg: function(e) {
     my.previewImage({
       urls: [this.data.pic_url],

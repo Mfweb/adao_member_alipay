@@ -63,7 +63,6 @@ Page({
       selectedIndex: 0,
       picURL: '',
       userName: '匿名肥宅',
-      appList: [],
       menuList: [
         {
           name: '饼干管理',
@@ -186,21 +185,6 @@ Page({
   },
   onEat: function(e) {
     app.playEat();
-  },
-  /**
-   * 点击了APP下载
-   */
-  onTapDownloadApp: function(e) {
-    my.setClipboard({
-      text: app.globalData.AppList[e.currentTarget.id].url,
-      success: function() {
-        app.showSuccess('链接已复制');
-        this.onTapOverlay();
-      }.bind(this),
-      fail: function() {
-        app.showError('复制失败');
-      }
-    });
   },
   pullDownRefreshAll: function() {
     my.showNavigationBarLoading();

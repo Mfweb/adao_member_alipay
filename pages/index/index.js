@@ -244,27 +244,6 @@ Page({
         this.setData({ BLoading: false });
       }.bind(this));
   },
-  /**
-     * APP下载
-     */
-  onAppDw: function() {
-    my.showActionSheet({
-      items: ['APP下载', '关于'],
-      success: function(e) {
-        if (e.index >= 0) {
-          if (e.index == 0) {//App下载
-            app.showDownloadAPP();
-          }
-          else if (e.index == 1) {//关于
-            my.navigateTo({
-              url: '../about/about',
-            });
-          }
-        }
-      },
-      fail: function() { }
-    });
-  },
   onReadPrivacy: function() {
     my.navigateTo({ url: '../thread/thread?id=11689471&is_bt=false' });
   },
