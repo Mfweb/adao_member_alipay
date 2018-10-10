@@ -22,13 +22,12 @@ Component({
     onStartLoadCookie: (event) => null
   },
   didMount() {
-    console.log('111111');
     this.$page.cookieManagerCom = this;
   },
   didUpdate() {},
   didUnmount() {},
   methods: {
-    StartLoadCookie: function() {
+    startLoadCookies: function() {
       this.setData({
         loadCookie: false,
         vCodeShow: false

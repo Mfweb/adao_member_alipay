@@ -5,9 +5,7 @@ Page({
     pageIndex: 0,
     cookieLoading: true,
     authLoading: true,
-    sportLoading: true,
-
-    popupMenuOpenData: {}
+    sportLoading: true
   },
   resetData: function() {
     this.setData({
@@ -16,36 +14,6 @@ Page({
       cookieLoading: true,
       authLoading: false,
       sportLoading: false,
-
-
-      popupMenuOpenData: {
-        show: false,
-        selectedIndex: 0,
-        picURL: '',
-        userName: '匿名肥宅',
-        menuList: [{
-          name: '饼干管理',
-          icon: 'cookie',
-          canSwitch: true
-        }, {
-          name: '实名认证',
-          icon: 'certified',
-          canSwitch: true
-        }, {
-          name: '密码修改',
-          icon: 'passwd',
-          canSwitch: true
-        }, {
-          name: '关于',
-          icon: 'about',
-          canSwitch: false
-        }, {
-          name: '退出',
-          icon: 'exit',
-          canSwitch: false
-        },
-        ]
-      }
     });
   },
   /**
@@ -54,11 +22,6 @@ Page({
   onReady: function() {
     this.resetData();
     this.pullDownRefreshAll();
-    let userName = my.getStorageSync({key: 'UserName'}).data;
-    if (userName == null || userName == '') {
-      userName = '匿名肥宅';
-    }
-    this.setData({ 'popupMenuOpenData.userName': userName });
   },
   /**
    * 开始下拉刷新
@@ -77,9 +40,9 @@ Page({
     }
   },
   pullDownRefreshAll: function() {
-    //my.showNavigationBarLoading();
-    //this.cookieManagerCom.startLoadCookies();
-    //this.authManagerCom.startLoadAuth();
+    my.showNavigationBarLoading();
+    this.cookieManagerCom.startLoadCookies();
+    this.authManagerCom.startLoadAuth();
   },
 
   /**
@@ -105,8 +68,7 @@ Page({
     }
   },
   onLoadStart: function(event) {
-    console.log(event);
-    switch (event.detail.from) {
+    switch (event.from) {
       case 'auth':
         this.setData({ authLoading: true });
         break;
@@ -116,8 +78,7 @@ Page({
     }
   },
   onLoadEnd: function(event) {
-    console.log(event);
-    switch (event.detail.from) {
+    switch (event.from) {
       case 'auth':
         this.setData({ authLoading: false });
         break;
@@ -126,11 +87,13 @@ Page({
         break;
     }
 
-    if (event.detail.needRefresh) {
-      my.startPullDownRefresh({});
+    if (event.needRefresh) {
+      this.pullDownRefreshAll();
+      my.showNavigationBarLoading();
     }
     else {
       my.stopPullDownRefresh();
+      my.hideNavigationBarLoading();
     }
     this.setData({ authLoading: false });
   }

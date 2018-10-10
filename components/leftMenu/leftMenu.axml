@@ -2,7 +2,7 @@
   <image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image>
 </view>
 
-<view class="popup-menu {{settings.show==true?'popup-menu-open':''}}" style='height: 100%;'>
+<view class="popup-menu {{settings.show==true?'popup-menu-open':''}}">
   <view class='popup-menu-topbar' onTap='onViewImage'>
     <image class='popup-menu-acimg' src="{{settings.picURL}}" mode='aspectFill'></image>
     <view class='popup-menu-userinfo'>

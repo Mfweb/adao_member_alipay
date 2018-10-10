@@ -37,7 +37,6 @@ Component({
     onStartLoadAuth: (event) => null
   },
   didMount() {
-    console.log('22222');
     this.$page.authManagerCom = this;
   },
   didUpdate() {},
@@ -141,7 +140,6 @@ Component({
      */
     onPickerChange: function(e) {
       this.setData({ Cindex: e.detail.value });
-      console.log(this.data.Cindex);
     },
     /**
      * 点击了复制手机号

@@ -1,6 +1,7 @@
 .exitBtn{
   position: fixed;
   left: 7px;
+  top: 0;
   z-index: 888;
   background: #334054;
   width: 32px;
@@ -21,6 +22,7 @@
 .popup-menu {
   width: 50%;
   height: 100%;
+  top: 0;
   background-color: #334054;
   position: fixed;
   z-index: 1000;

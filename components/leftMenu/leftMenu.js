@@ -1,13 +1,44 @@
 Component({
   props: {
-    defaultData: {},
     onPageChange: (id) => null
   },
   data: {
     settings: {}
   },
   didMount: function () {
-    this.setData({ settings: this.props.defaultData});
+    let userName = my.getStorageSync({ key: 'UserName' }).data;
+    if (userName == null || userName == '') {
+      userName = '匿名肥宅';
+    }
+    this.setData({
+      settings: {
+        show: false,
+        selectedIndex: 0,
+        picURL: '',
+        userName: userName,
+        menuList: [{
+          name: '饼干管理',
+          icon: 'cookie',
+          canSwitch: true
+        }, {
+          name: '实名认证',
+          icon: 'certified',
+          canSwitch: true
+        }, {
+          name: '密码修改',
+          icon: 'passwd',
+          canSwitch: true
+        }, {
+          name: '关于',
+          icon: 'about',
+          canSwitch: false
+        }, {
+          name: '退出',
+          icon: 'exit',
+          canSwitch: false
+        },
+        ]
+      }});
     getApp().getImage(function (url) {
       this.setData({ 'settings.picURL': url });
     }.bind(this));

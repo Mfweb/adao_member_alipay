@@ -1,5 +1,5 @@
 <import src="/wxParse/wxParse.axml"/>
-<view class='pdcontainer'>
+<view a:if='{{hide}}' class='pdcontainer'>
   <view class='certTable'>
     <view>实名认证状态：
     </view>

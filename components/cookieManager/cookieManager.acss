@@ -94,9 +94,9 @@
 }
 .cookie-num{
   color: #C0C0C0;
-  font-size: 0.7rem;
+  font-size: 10px;
   margin-left: 1%;
-  margin-top: 0.4rem;
+  margin-top: 3px;
 }
 .cookie-warn{
   font-size: 17px;

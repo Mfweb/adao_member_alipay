@@ -1,4 +1,4 @@
-<view class='pdcontainer'>
+<view a:if='{{hide}}' class='pdcontainer'>
   <view class='CookieList'>
     <view class='CookieListTr'>
       <view class='CookieListTd1 lTitle'>ID

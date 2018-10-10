@@ -1,9 +1,0 @@
-require('@alipay/appx-compiler/lib/sjsEnvInit');
-require('./config$');
-require('../../components/leftMenu/leftMenu');
-require('../../components/cookieManager/cookieManager');
-require('../../components/authManager/authManager');
-require('../../components/passwdManager/passwdManager');
-require('../../pages/index/index');
-require('../../pages/userMember/userMember');
-require('../../pages/about/about');
