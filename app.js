@@ -29,11 +29,6 @@ App({
       GetSharesURL: hostURL + "/adao/getshare.php",
       //获取服务条款
       GetTermsURL: hostURL + "/adao/member/getterms.php",
-    },
-    SystemInfo: {
-      Windows: {
-        statusBarHeight: 0
-      }
     }
   },
   showSuccess: function(msg) {
