@@ -21,6 +21,7 @@ App({
       ChangePasswordURL: hostURL + "/nmb/Member/User/Index/changePassword.html",//修改密码
       LogoutURL: hostURL + "/nmb/Member/User/Index/logout.html",//退出登录
 
+      AliPayAuthURL: hostURL + "/adao/member/alipay_get_user_info.php",//支付宝实名认证
       GetNoticeURL: hostURL + "/adao/member/notice.php",//获取公告
       GetAuthPhoneURL: hostURL + "/adao/member/getphone.php",//获取三酱验证手机号
       GetRandomPicURL: hostURL + "/adao/getpicture.php",//获取随机图

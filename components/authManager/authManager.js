@@ -30,6 +30,7 @@ Component({
     CertMsg: null,//手机实名认证显示的消息
     ShowCertMsg: false,//是否显示实名认证消息
     CopyLoading: false,//复制手机号loading
+    AliPayAuthing: false
   },
   props: {
     hide: true,
@@ -127,6 +128,32 @@ Component({
           this.setData({ EnterButLoading: false });
           this.props.onEndLoadAuth({ from: 'auth', needRefresh: false });
         }.bind(this));
+    },
+    onAlipayAuthTap: function() {
+      this.setData({AliPayAuthing:true});
+      my.getAuthCode({
+        scopes: 'auth_user',
+        success: (res) => {
+          _http.api_request(_app.globalData.ApiUrls.AliPayAuthURL, {code:res.authCode},
+          function(res) {
+            if(res.status == 'ok') {
+              _app.showSuccess(res.userInfo.Id);
+            }
+            else {
+              app.showError(res.errMsg);
+            }
+            this.setData({AliPayAuthing:false});
+          }.bind(this)
+          ,function() {
+            _app.showError('网络错误');
+            this.setData({AliPayAuthing:false});
+          }.bind(this));
+        },
+        fail: () => {
+          this.setData({AliPayAuthing:false});
+          _app.showError('获取信息失败');
+        }
+      }).bind(this);
     },
     /**
      * 点击了开始实名认证

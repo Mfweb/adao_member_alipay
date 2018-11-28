@@ -35,6 +35,8 @@
   <template a:if='{{ShowCertMsg}}' is="wxParse" data="{{wxParseData:CertMsg}}"/>
   <button a:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{CopyLoading}}' onTap='onCopyAuthPhoneNumber'>复制手机号
   </button>
-  <button a:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' onTap='onPhoneCert'>点击进行手机认证
+  <button a:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' onTap='onPhoneCert'>手机实名认证
+  </button>
+  <button a:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' loading="{{AliPayAuthing}}" onTap='onAlipayAuthTap'>支付宝实名认证
   </button>
 </view>
